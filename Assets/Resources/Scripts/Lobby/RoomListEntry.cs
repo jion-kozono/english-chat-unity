@@ -11,7 +11,7 @@ public class RoomListEntry : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI nameLabel;
     [SerializeField]
-    private TextMeshProUGUI messageLabel;
+    private TextMeshProUGUI difficultyLabel;
     [SerializeField]
     private TextMeshProUGUI playerCounter;
 
@@ -36,7 +36,7 @@ public class RoomListEntry : MonoBehaviour
         roomName = info.Name;
 
         nameLabel.text = (string)info.CustomProperties["DisplayName"];
-        messageLabel.text = (string)info.CustomProperties["Message"];
+        difficultyLabel.text = (string)info.CustomProperties["Difficulty"];
         playerCounter.SetText("{0}/{1}", info.PlayerCount, info.MaxPlayers);
         // ルームの参加人数が満員でない時だけ、クリックできるようにする
         button.interactable = (info.PlayerCount < info.MaxPlayers);

@@ -62,7 +62,6 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
     }
     public void OnPlayerFinished(Player player, int turn, object move) //1 プレイヤーがターンを終えたとき（そのプレイヤーのアクション/移動を含む）
     {
-        Debug.Log("Player: " + player + " turn: " + turn + " action: " + move);
     }
     public void OnPlayerMove(Player player, int turn, object move) //2 プレイヤーが移動したとき（ただし、ターンは終了しない）
     {
@@ -70,19 +69,16 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
     }
     public void OnTurnBegins(int turn)//3 ターンが開始した場合
     {
-        Debug.Log("OnTurnBegins() turn: " + turn);
         IsShowingResults = false;
     }
     public void OnTurnCompleted(int turn)//4 ターン終了時に呼ばれるメソッド（すべてのプレイヤーが終了）
     {
         this.turnManager.BeginTurn();//turnmanagerに新しいターンを始めさせる
         photonView.RPC("RPC_AutomaticSend", RpcTarget.All);
-        Debug.Log("OnTurnCompleted() turn: " + turn);
     }
     public void OnTurnTimeEnds(int turn)//5　タイマーが終了した場合
     {
         this.MakeTurn(5);
-        Debug.Log("OnTurnTimeEnds() turn: " + turn);
     }
     public void StartTurn()//ターン開始メソッド（シーン開始時にRPCから呼ばれる呼ばれるようにしてあります。）
     {
@@ -90,7 +86,6 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
         {
             if (number == this.turnManager.Turn)//BeginTurnが1ターンに1回しか回らないことのチェックをする。
             {
-                Debug.Log("StartTurn! " + number);
                 this.turnManager.BeginTurn();//turnmanagerに新しいターンを始めさせる
                 photonView.RPC("RPC_AutomaticSend", RpcTarget.All);
                 number++;//BeginTurnが2回目以降1ターンに回る場合にはこの変数がターンと一致しないようにする
@@ -104,7 +99,6 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
     public void MakeTurn(object index)//ターン移動のメソッド
     {
         this.turnManager.SendMove(index, true); //無条件でターン終了
-        Debug.Log("MakeTurn成功");
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)　// 他のプレイヤーが入室してきた時
     {
@@ -128,7 +122,6 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
     }
     void DestroyGameStart() //"GameStart！"テキストを壊す
     {
-        Debug.Log("DestroyGameStart");
         Destroy(this.GameStart);
         this.StartTurn();
         isStartTurn = true;

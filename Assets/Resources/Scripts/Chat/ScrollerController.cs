@@ -10,15 +10,16 @@ using UnityEngine.UI;
 public class ScrollerController : MonoBehaviour, IEnhancedScrollerDelegate
 {
     private PhotonView photonView;
+    public TurnManager turnManager;
     public EnhancedScroller m_scroller;
     public CellView m_cellPrefab;
     public TextGenerationSettings settings;
     private List<ScrollerData> _data;　// インプットしたデータのリスト
     private float _height;
     private float _width;
+    private int AdjustHeight = 30; //高さを調整
     [SerializeField] private InputField field;
     [SerializeField] private RectTransform fieldRect;
-    public TurnManager turnManager;
     private void Start()
     {
         photonView = GetComponent<PhotonView>();
@@ -43,11 +44,10 @@ public class ScrollerController : MonoBehaviour, IEnhancedScrollerDelegate
     {
         // RpcTarget.Allで呼び出すと自分と他の人のOnRecieveが呼び出される
         // この関数でデータの追加と画面の更新の処理を行う
-        Debug.LogFormat("Info: {0} {1} {2}", info.Sender, info.photonView.IsMine, info.SentServerTime);
         Vector2 size = GetTextSize(text, fieldRect.rect.width - 20);
-        _height = size.y + 80;
+        _height = size.y;
         _width = size.x;
-        _data.Add(new ScrollerData { m_input_data = text, m_height = _height, m_width = _width }); // インプットしたデータを格納する
+        _data.Add(new ScrollerData { m_input_data = text, m_height = _height, m_width = _width, is_mine = info.Sender.IsLocal }); // インプットしたデータを格納する
         m_scroller.ReloadData(); // ReloadDataをするとビューが更新さ
         m_scroller.JumpToDataIndex(_data.Count - 1, 1, 1, true, EnhancedScroller.TweenType.easeInSine, 0); //ここにスクローラーを下にする処理を書くれる
     }
@@ -82,7 +82,7 @@ public class ScrollerController : MonoBehaviour, IEnhancedScrollerDelegate
 
     public float GetCellViewSize(EnhancedScroller scroller, int dataIndex) //自動で呼ばれる
     {
-        return _data[dataIndex].m_height;
+        return _data[dataIndex].m_height + this.AdjustHeight;
     }
     public EnhancedScrollerCellView GetCellView(EnhancedScroller scroller, int dataIndex, int cellIndex) //自動で呼ばれる
     {

@@ -36,10 +36,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private string roomName = "Knohhoso's Room";
 
     // ステージ
-    [SerializeField] private string stageName1 = "Stage1";
+    [SerializeField] private string DisplayName = "{PhotonNetwork.NickName}の部屋";
 
     // 難易度
-    [SerializeField] private string stageDifficultyEasy = "Easy";
+    [SerializeField] private string stageDifficulty = "Easy";
 
     // ルームリスト
     private List<RoomInfo> roomInfoList = new List<RoomInfo>();
@@ -137,19 +137,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // ルームオプションにカスタムプロパティを設定
         ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable
         {
-            { "Stage", stageName1 },
-            { "Difficulty", stageDifficultyEasy }
+            { "DisplayName", DisplayName },
+            { "Difficulty", stageDifficulty }
         };
         roomOptions.CustomRoomProperties = customRoomProperties;
 
         // ロビーに公開するカスタムプロパティを指定
-        roomOptions.CustomRoomPropertiesForLobby = new string[] { "Stage", "Difficulty" };
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "DisplayName", "Difficulty" };
 
         // 部屋を作成して入室する
         if (PhotonNetwork.InLobby)
         {
-            PhotonNetwork.CreateRoom(roomName, roomOptions);
-            ChangeChatScene();
+            PhotonNetwork.CreateRoom(null, roomOptions);
         }
     }
 
@@ -172,18 +171,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // ルームオプションにカスタムプロパティを設定
         ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable
         {
-            { "Stage", stageName1 },
-            { "Difficulty", stageDifficultyEasy }
+            { "DisplayName", DisplayName },
+            { "Difficulty", stageDifficulty }
         };
         roomOptions.CustomRoomProperties = customRoomProperties;
 
         // ロビーに公開するカスタムプロパティを指定
-        roomOptions.CustomRoomPropertiesForLobby = new string[] { "Stage", "Difficulty" };
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "DisplayName", "Difficulty" };
 
         // 入室 (存在しなければ部屋を作成して入室する)
         if (PhotonNetwork.InLobby)
         {
-            PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, TypedLobby.Default);
+            PhotonNetwork.JoinOrCreateRoom(null, roomOptions, TypedLobby.Default);
         }
     }
 
@@ -240,13 +239,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     // カスタムプロパティを更新する
-    private void UpdateRoomCustomProperties(string newStageName, string newStageDifficulty)
+    private void UpdateRoomCustomProperties(string newDisplayName, string newStageDifficulty)
     {
         if (PhotonNetwork.InRoom)
         {
             // ステージと難易度を更新
             ExitGames.Client.Photon.Hashtable customRoomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
-            customRoomProperties["Stage"] = newStageName;
+            customRoomProperties["DisplayName"] = newDisplayName;
             customRoomProperties["Difficulty"] = newStageDifficulty;
             PhotonNetwork.CurrentRoom.SetCustomProperties(customRoomProperties);
         }
@@ -265,10 +264,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             foreach (RoomInfo roomInfo in roomInfoList)
             {
                 // ステージで絞り込み
-                if (roomInfo.CustomProperties["Stage"] as string == stageName1)
+                if (roomInfo.CustomProperties["DisplayName"] as string == DisplayName)
                 {
                     // 難易度で絞り込み
-                    if (roomInfo.CustomProperties["Difficulty"] as string == stageDifficultyEasy)
+                    if (roomInfo.CustomProperties["Difficulty"] as string == stageDifficulty)
                     {
                         // 条件に合致した部屋の情報を表示
                         Debug.Log("RoomName: " + roomInfo.Name);
@@ -288,16 +287,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             foreach (RoomInfo roomInfo in roomInfoList)
             {
                 // ステージで絞り込み
-                if (roomInfo.CustomProperties["Stage"] as string == stageName1)
+                if (roomInfo.CustomProperties["Stage"] as string == DisplayName)
                 {
                     // 難易度で絞り込み
-                    if (roomInfo.CustomProperties["Difficulty"] as string == stageDifficultyEasy)
+                    if (roomInfo.CustomProperties["Difficulty"] as string == stageDifficulty)
                     {
                         // 満員でなければ部屋に入室する
                         if (roomInfo.PlayerCount < roomInfo.MaxPlayers)
                         {
                             JoinRoom(roomInfo.Name);
-                            ChangeChatScene();
                             return;
                         }
                     }
@@ -363,7 +361,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
-
+        ChangeChatScene();
         // 部屋の情報を表示
         if (PhotonNetwork.InRoom)
         {

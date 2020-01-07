@@ -175,9 +175,7 @@
      <Compile Include="Assets\Resources\Scripts\Chat\ScrollerController.cs" />
      <Compile Include="Assets\Resources\Scripts\Chat\ScrollerData.cs" />
      <Compile Include="Assets\Resources\Scripts\Chat\TurnManager.cs" />
-     <Compile Include="Assets\Resources\Scripts\Lobby\LobbyManager.cs" />
      <Compile Include="Assets\Resources\Scripts\Lobby\RoomListEntry.cs" />
-     <Compile Include="Assets\Resources\Scripts\Lobby\RoomListScrollerController.cs" />
      <Compile Include="Assets\Resources\Scripts\Lobby\RoomListView.cs" />
      <Compile Include="Assets\Resources\Scripts\Login\LogInManager.cs" />
      <Compile Include="Assets\Resources\Scripts\Login\NetworkManager.cs" />
