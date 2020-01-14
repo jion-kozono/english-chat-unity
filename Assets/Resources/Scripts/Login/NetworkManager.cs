@@ -36,7 +36,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private string roomName = "Knohhoso's Room";
 
     // ステージ
-    [SerializeField] private string DisplayName = "{PhotonNetwork.NickName}の部屋";
+    [SerializeField] private string DisplayName;
 
     // 難易度
     [SerializeField] private string stageDifficulty = "Easy";
@@ -63,6 +63,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         // Photonに接続
         Connect("1.0");
+        DisplayName = PhotonNetwork.NickName + "の部屋";
     }
 
     /////////////////////////////////////////////////////////////////////////////////////

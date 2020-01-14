@@ -34,7 +34,6 @@ public class UserAuth : MonoBehaviour
         user.Password = pw;
         user.SignUpAsync((NCMBException e) =>
         {
-
             if (e == null)
             {
                 currentPlayerName = id;

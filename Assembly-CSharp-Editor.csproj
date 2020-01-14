@@ -264,12 +264,6 @@
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
  </Reference>
- <Reference Include="TextMeshPro-2017.3-Editor">
- <HintPath>/Users/xiaoyuanzhiwang/EnglishChat/Assets/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.3-Editor.dll</HintPath>
- </Reference>
- <Reference Include="TextMeshPro-2017.3-Runtime">
- <HintPath>/Users/xiaoyuanzhiwang/EnglishChat/Assets/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.3-Runtime.dll</HintPath>
- </Reference>
  <Reference Include="Photon3Unity3D">
  <HintPath>/Users/xiaoyuanzhiwang/EnglishChat/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
  </Reference>

@@ -5,6 +5,7 @@ using UnityEngine;
 public class ChatButtonManger : MonoBehaviour
 {
     public GameObject ChatMenuModal = null;
+    public UserInfo userInfo;
     // Use this for initialization
     void Start()
     {
@@ -13,21 +14,22 @@ public class ChatButtonManger : MonoBehaviour
             ChatMenuModal.SetActive(false);
         }
     }
-
     public void OpenChatMenuModal()
     {
         // Canvas を有効にする
         if (ChatMenuModal.activeSelf == false)
         {
+            if (userInfo.UserInfoModal.activeSelf != false)
+            {
+                userInfo.UserInfoModal.SetActive(false);
+            }
             ChatMenuModal.SetActive(true);
         }
         else
         {
-            ChatMenuModal.SetActive(false);
+            return;
         }
     }
-
-    // Update is called once per frame
     public void CloseChatMenuModal()
     {
         // Canvas を有効にする

@@ -394,8 +394,8 @@ MonoBehaviour:
   isVisible: 1
   isOpen: 1
   roomName: Knohhoso's Room
-  stageName1: Stage1
-  stageDifficultyEasy: Easy
+  DisplayName: 
+  stageDifficulty: 
 --- !u!4 &575809362
 Transform:
   m_ObjectHideFlags: 0

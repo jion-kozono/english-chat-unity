@@ -1,6 +1,5 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +8,11 @@ using UnityEngine.UI;
 public class RoomListEntry : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI nameLabel;
+    private Text nameLabel;
     [SerializeField]
-    private TextMeshProUGUI difficultyLabel;
+    private Text difficultyLabel;
     [SerializeField]
-    private TextMeshProUGUI playerCounter;
+    private Text playerCounter;
 
     private RectTransform rectTransform;
     private Button button;
@@ -37,7 +36,7 @@ public class RoomListEntry : MonoBehaviour
 
         nameLabel.text = (string)info.CustomProperties["DisplayName"];
         difficultyLabel.text = (string)info.CustomProperties["Difficulty"];
-        playerCounter.SetText("{0}/{1}", info.PlayerCount, info.MaxPlayers);
+        playerCounter.text = info.PlayerCount + "/" + info.MaxPlayers;
         // ルームの参加人数が満員でない時だけ、クリックできるようにする
         button.interactable = (info.PlayerCount < info.MaxPlayers);
 
