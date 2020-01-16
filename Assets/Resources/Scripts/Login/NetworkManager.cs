@@ -392,18 +392,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("OnLeftRoom");
     }
 
-    // // 他のプレイヤーが入室してきた時
-    // public override void OnPlayerEnteredRoom(Player newPlayer)
-    // {
-    //     Debug.Log("OnPlayerEnteredRoom");
-    //     Debug.Log("Slots: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers);
-    // }
+    // 他のプレイヤーが入室してきた時
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        Debug.Log("OnPlayerEnteredRoom");
+        Debug.Log("Slots: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers);
+    }
 
-    // // 他のプレイヤーが退室した時
-    // public override void OnPlayerLeftRoom(Player otherPlayer)
-    // {
-    //     Debug.Log("OnPlayerLeftRoom");
-    // }
+    // 他のプレイヤーが退室した時
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log("OnPlayerLeftRoom");
+    }
 
     // マスタークライアントが変わった時
     public override void OnMasterClientSwitched(Player newMasterClient)

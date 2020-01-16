@@ -92,7 +92,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="unity.build-id"
-            android:value="4c84c5e2-7964-4f59-8ff9-1a51d53c5b24" />
+            android:value="eaf893f7-7132-487f-a626-dccf8588790f" />
         <meta-data
             android:name="unity.splash-mode"
             android:value="0" />

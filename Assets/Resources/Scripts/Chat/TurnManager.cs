@@ -29,7 +29,7 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
     private bool IsShowingResults; //結果が見えているか
     private bool isAll = false; //全員いるか
     private bool isStartTurn; //全員いるか
-    public ScrollerController scrollerController; //チャットが打たれたかを判断するためScrollerControllerを用いる
+    // public UserInfo userInfo;
 
     // Use this for initialization
     public void Awake()// StartをAwakeにする。
@@ -38,6 +38,10 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
         photonView = GetComponent<PhotonView>();
         this.turnManager.TurnDuration = 21f;//ターンは30秒にする
         this.turnManager.TurnManagerListener = this;// この実装でイベント関数をコールバックとして呼び出してもらうように登録しています。
+    }
+    void Start()
+    {
+        // UserInfo.InfoText(); //
     }
 
     public void OnEvent(EventData photonEvent)
@@ -106,13 +110,13 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
         Debug.Log("Slots: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers);
         isAll = true;
         photonView.RPC("RPC_GameStart", RpcTarget.All); //前プレーヤーにGameStart!を表示
+        // UserInfo.InfoText(); //
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)　 // 他のプレイヤーが退室した時
     {
         Debug.Log("OnPlayerLeftRoom");
         Debug.Log("Slots: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers);
         isAll = false;
-        photonView.RPC("RPC_DestroyTurnManager", RpcTarget.All); //片方いなくなったらゲームの初期化
     }
     [PunRPC]
     public void RPC_GameStart()
@@ -125,11 +129,6 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
         Destroy(this.GameStart);
         this.StartTurn();
         isStartTurn = true;
-    }
-    [PunRPC]
-    public void RPC_DestroyTurnManager()
-    {
-        Destroy(this.turnManager);
     }
     [PunRPC]
     public void RPC_AutomaticSend()

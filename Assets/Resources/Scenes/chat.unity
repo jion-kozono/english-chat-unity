@@ -3113,6 +3113,7 @@ MonoBehaviour:
   GameStart: {fileID: 31739834}
   canChat: 0
   scrollerController: {fileID: 295194354}
+  userInfo: {fileID: 1081666821}
 --- !u!4 &1735871945
 Transform:
   m_ObjectHideFlags: 0
