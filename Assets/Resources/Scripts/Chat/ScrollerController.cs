@@ -1,7 +1,6 @@
 ﻿using Photon.Pun;
 using EnhancedUI.EnhancedScroller;
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 

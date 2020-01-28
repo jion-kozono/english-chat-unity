@@ -2,67 +2,63 @@
 using Photon.Pun;
 using Photon.Realtime;
 using Photon.Pun.UtilityScripts;
-using System.Collections;
-using System.Collections.Generic;
+using NCMB;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PhotonView))]
 [RequireComponent(typeof(PhotonTransformView))]
 [RequireComponent(typeof(PunTurnManager))]
 public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurnManagerCallbacks
 {
-    private PhotonView photonView;
+    private PhotonView pView;
     private PunTurnManager turnManager;
     [SerializeField]
-    private Text TurnText;//ターン数の表示テキスト
+    private Text TurnText = null;//ターン数の表示テキスト
     [SerializeField]
     private Text TimeText = null;//残り時間の表示テキスト
     [SerializeField]
-    private Text WaitingText;//"Opponent's turn..."のテキスト
+    private Text YourTurnText; //"Your Turn, Waiting..."のテキスト
     [SerializeField]
-    private Text YourTurnText; //"Your Turn"のテキスト
+    private Text OtherPlayerEntereOrLeft; //相手が出入りした時に表示するテキスト
     [SerializeField]
-    private Text GameStart; //"GameStart!"のテキスト
+    private Text GameStartOrOver; //"GameStart!, GameOver!"のテキスト
     private int number = 0;
+    private int turnLimit = 2; //ターンの回数
     public bool canChat = false; //チャット可能に
-    private bool IsShowingResults; //結果が見えているか
     private bool isAll = false; //全員いるか
-    private bool isStartTurn; //全員いるか
-    // public UserInfo userInfo;
-
+    private bool isStart = false; //全員いるか
+    public bool isReGame = false; //ゲームが再開されたか
+    public UserInfo userInfo;
+    public NetworkManager nManager;
     // Use this for initialization
     public void Awake()// StartをAwakeにする。
     {
-        turnManager = GetComponent<PunTurnManager>();
-        photonView = GetComponent<PhotonView>();
+        pView = GetComponent<PhotonView>();
+        turnManager = GetComponent<PunTurnManager>(); //他プレーヤーが入ってきたらPunTurnManagerコンポーネントをつける
         this.turnManager.TurnDuration = 21f;//ターンは30秒にする
         this.turnManager.TurnManagerListener = this;// この実装でイベント関数をコールバックとして呼び出してもらうように登録しています。
     }
-    void Start()
+    public void Start()
     {
-        // UserInfo.InfoText(); //
-    }
 
-    public void OnEvent(EventData photonEvent)
-    {
     }
     // Update is called once per frame
     void Update()
     {
-        if (this.TurnText != null && isAll && isStartTurn)
+        if (this.turnManager.Turn > 0 && this.TurnText != null && isStart) //ターンが0以上、TurnTextがnullでない、ゲームが始まっている場合。
         {
             this.TurnText.text = this.turnManager.Turn.ToString();//何ターン目かを表示してくれる
         }
-        if (this.turnManager.Turn > 0 || this.TimeText != null && isAll && isStartTurn && !IsShowingResults)//ターンが0以上、TimeTextがnullでない、結果が見えていない場合。
+        if (this.turnManager.Turn > 0 && this.TimeText != null && isStart)//ターンが0以上、TimeTextがnullでない、ゲームが始まっている場合。
         {
             int flooredToIntValueToInt = Mathf.FloorToInt(this.turnManager.RemainingSecondsInTurn);
-            this.TimeText.text = flooredToIntValueToInt.ToString() + " SECONDS";//小数点以下1桁の残り時間を表示。
+            this.TimeText.text = flooredToIntValueToInt.ToString() + " S";//小数点以下1桁の残り時間を表示。
         }
-        if (this.turnManager.IsCompletedByAll) //両方のプレイヤーがターンを終了しているか
-        {
-            //後に処理を書く予定
-        }
+    }
+    public void OnEvent(EventData photonEvent)
+    {
     }
     public void OnPlayerFinished(Player player, int turn, object move) //1 プレイヤーがターンを終えたとき（そのプレイヤーのアクション/移動を含む）
     {
@@ -73,12 +69,20 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
     }
     public void OnTurnBegins(int turn)//3 ターンが開始した場合
     {
-        IsShowingResults = false;
     }
     public void OnTurnCompleted(int turn)//4 ターン終了時に呼ばれるメソッド（すべてのプレイヤーが終了）
     {
-        this.turnManager.BeginTurn();//turnmanagerに新しいターンを始めさせる
-        photonView.RPC("RPC_AutomaticSend", RpcTarget.All);
+        if (this.turnManager.Turn == turnLimit)　//10ターンでゲーム終了
+        {
+            isStart = false; //ゲーム終了
+            photonView.RPC("RPC_GameOver", RpcTarget.All);
+        }
+        else
+        {
+            // StartTurn();
+            this.turnManager.BeginTurn();//turnmanagerに新しいターンを始めさせる
+            photonView.RPC("RPC_AutomaticSend", RpcTarget.All);
+        }
     }
     public void OnTurnTimeEnds(int turn)//5　タイマーが終了した場合
     {
@@ -96,6 +100,7 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
             }
         }
     }
+
     // public void OnEndTurn()//エンドターンのメソッド
     // {
     //     this.MakeTurn();
@@ -104,31 +109,103 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
     {
         this.turnManager.SendMove(index, true); //無条件でターン終了
     }
-    public override void OnPlayerEnteredRoom(Player newPlayer)　// 他のプレイヤーが入室してきた時
+    public override void OnPlayerEnteredRoom(Player newPlayer) // 他のプレイヤーが入室してきた時
     {
         Debug.Log("OnPlayerEnteredRoom");
         Debug.Log("Slots: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers);
-        isAll = true;
-        photonView.RPC("RPC_GameStart", RpcTarget.All); //前プレーヤーにGameStart!を表示
-        // UserInfo.InfoText(); //
+        photonView.RPC("RPC_IsAll", RpcTarget.All); //全プレーヤーにGameStart!を表示
+        OnOtherPlayerEntereOrLeft();
     }
-    public override void OnPlayerLeftRoom(Player otherPlayer)　 // 他のプレイヤーが退室した時
+    public override void OnPlayerLeftRoom(Player otherPlayer)  // 他のプレイヤーが退室した時
     {
         Debug.Log("OnPlayerLeftRoom");
-        Debug.Log("Slots: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers);
-        isAll = false;
+        photonView.RPC("RPC_NotIsAll", RpcTarget.All); //全プレーヤーにGameStart!を表示
+        OnOtherPlayerEntereOrLeft();
+    }
+    [PunRPC]
+    public void RPC_IsAll()
+    {
+        isAll = true; //全員いる
+        if (PhotonNetwork.IsMasterClient)
+        {
+            userInfo.SendMyData(NCMBUser.CurrentUser.ObjectId);
+        }
+        else
+        {
+            userInfo.StoreMyData();
+        }
+    }
+    [PunRPC]
+    public void RPC_NotIsAll()
+    {
+        isAll = false; //全員いない
+    }
+    private void OnOtherPlayerEntereOrLeft() //プレーヤーが入った、抜けた時
+    {
+        // Debug.Log("IsCompletedByAll: " + this.turnManager.IsCompletedByAll);
+        // if (!this.turnManager.IsCompletedByAll) //ゲーム終了時には呼ばない
+        // {
+        if (isAll)
+        {
+            this.OtherPlayerEntereOrLeft.text = "Other Player Entered!"; //他プレーヤーが入ったことを表示
+        }
+        else
+        {
+            this.OtherPlayerEntereOrLeft.text = "Other Player Left!"; //他プレーヤーが抜けたことを表示
+        }
+        Invoke("DestroyOtherPlayerEntereOrLeft", 2.5f); //DestroyOtherPlayerEntereOrLeftを2.5秒後に呼び出す
+        // }
+        // else
+        // {
+        //     return;
+        // }
+    }
+    void DestroyOtherPlayerEntereOrLeft() //プレーヤーが入った、抜けた時に表示するテキストを壊す
+    {
+        Destroy(this.OtherPlayerEntereOrLeft);
+        if (isAll)
+        {
+            photonView.RPC("RPC_GameStart", RpcTarget.All); //全プレーヤーにGameStart!を表示
+        }
+        else
+        {
+            ReGame(); //新しくゲームを作る
+        }
     }
     [PunRPC]
     public void RPC_GameStart()
     {
-        this.GameStart.text = "GameStart!"; //スタート時に"GameStart！"を表示
-        Invoke("DestroyGameStart", 2.5f); //DestroyGameStartを2.5秒後に呼び出す
+        isStart = true; //ゲーム開始
+        this.GameStartOrOver.text = "GameStart!"; //スタート時に"GameStart！"を表示
+        Invoke("NullGameStart", 2.5f); //DestroyGameStartを2.5秒後に呼び出す
     }
-    void DestroyGameStart() //"GameStart！"テキストを壊す
+    void NullGameStart() //"GameStart！"テキストをnullにする
     {
-        Destroy(this.GameStart);
+        this.GameStartOrOver.text = null;
         this.StartTurn();
-        isStartTurn = true;
+    }
+    [PunRPC]
+    public void RPC_GameOver()
+    {
+        this.GameStartOrOver.text = "GameOver!"; //スタート時に"GameOver!"を表示
+        Invoke("NullGameOver", 2.5f); //DestroyGameOverを2.5秒後に呼び出す
+    }
+    void NullGameOver() //"GameOver！"テキストをnullにする
+    {
+        this.GameStartOrOver.text = null;
+        PhotonNetwork.LeaveRoom(); //両プレーヤーを退出させる（ロビーに行く)
+        SceneManager.LoadScene("Lobby");
+    }
+    private void ReGame()
+    {
+        isReGame = true;
+        PhotonNetwork.LeaveRoom(); //ロビーに行かない
+        Invoke("CreateRoom", 2.5f); //CreateRoomを2.5秒後に呼び出す
+    }
+    public void CreateRoom()
+    {
+        SceneManager.LoadScene("Chat");
+        nManager.CreateAndJoinRoom();
     }
     [PunRPC]
     public void RPC_AutomaticSend()
@@ -139,13 +216,11 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
             canChat = false; //チャットを不可能にする
             object index = 0;
             this.turnManager.SendMove(index, true); //無条件でターン終了
-            this.WaitingText.text = "Opponent's turn...";　//待ちの表示テキスト
-            this.YourTurnText.text = "";
+            this.YourTurnText.text = "Waitng..."; //待ちの表示テキスト
         }
         else
         {
             canChat = true; //チャットを可能にする
-            this.WaitingText.text = "";
             this.YourTurnText.text = "Your Turn";
         }
     }

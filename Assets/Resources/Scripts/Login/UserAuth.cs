@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using NCMB;
-using System.Collections.Generic;
-
 public class UserAuth : MonoBehaviour
 {
 
     private string currentPlayerName;
+    public bool initialSignUp = false; //SignUpは一度だけ
 
     // mobile backendに接続してログイン ------------------------
 
@@ -37,6 +35,11 @@ public class UserAuth : MonoBehaviour
             if (e == null)
             {
                 currentPlayerName = id;
+                logIn(id, pw);
+                if (!initialSignUp)
+                {
+                    initialSignUp = true;
+                }
             }
         });
     }
@@ -62,7 +65,6 @@ public class UserAuth : MonoBehaviour
     }
 
     // シングルトン化する ------------------------
-
     private UserAuth instance = null;
     void Awake()
     {
@@ -70,7 +72,6 @@ public class UserAuth : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-
             string name = gameObject.name;
             gameObject.name = name + "(Singleton)";
 
@@ -89,5 +90,4 @@ public class UserAuth : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
 }

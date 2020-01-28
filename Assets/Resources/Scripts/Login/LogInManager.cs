@@ -1,136 +1,95 @@
-﻿using ExitGames.Client.Photon;
-using Photon.Pun;
-using Photon.Realtime;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using NCMB;
-public class LogInManager : MonoBehaviourPunCallbacks
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+public class LogInManager : MonoBehaviour
 {
-
-    private GameObject guiTextLogIn;   // ログインテキスト
-    private GameObject guiTextSignUp;  // 新規登録テキスト
-
+    [SerializeField] private GameObject guiTextLogIn;   // ログイン画面のゲームオブジェクト
+    [SerializeField] private GameObject guiTextSignUp;  // 新規登録画面のゲームオブジェクト
+    [SerializeField] private InputField m_userIdForSignUp;
+    [SerializeField] private InputField m_userIdForLogin;
+    [SerializeField] private InputField m_passwordForSignUp;
+    [SerializeField] private InputField m_passwordForLogin;
+    [SerializeField] private InputField m_mailInputField;
+    public UserAuth userAuth;
     // ログイン画面のときtrue, 新規登録画面のときfalse
     private bool isLogIn;
-
-    // ボタンが押されると対応する変数がtrueになる
-    private bool logInButton;
-    private bool signUpMenuButton;
-    private bool signUpButton;
-    private bool backButton;
 
     // テキストボックスで入力される文字列を格納
     public string id;
     public string pw;
     public string mail;
-    public string mailConfirm;
-
-    void Start()
+    void awake()
     {
-
-        FindObjectOfType<UserAuth>().logOut();
-
-        // ゲームオブジェクトを検索し取得する
-        guiTextLogIn = GameObject.Find("GUITextLogIn");
-        guiTextSignUp = GameObject.Find("GUITextSignUp");
-
-        isLogIn = true;
-        guiTextSignUp.SetActive(false);
-        guiTextLogIn.SetActive(true);
-
-    }
-
-    void OnGUI()
-    {
-
-        // ログイン画面
-        if (isLogIn)
+        if (NCMBUser.CurrentUser.IsAuthenticated())
         {
-
-            drawLogInMenu();
-
-            // ログインボタンが押されたら
-            if (logInButton)
-            {
-                FindObjectOfType<UserAuth>().logIn(id, pw);
-            }
-
-            // 新規登録画面に移動するボタンが押されたら
-            if (signUpMenuButton)
-                isLogIn = false;
-        }
-
-        // 新規登録画面
-        else
-        {
-
-            drawSignUpMenu();
-
-            // 新規登録ボタンが押されたら
-            if (signUpButton)
-                FindObjectOfType<UserAuth>().signUp(id, mail, pw);
-
-            // 戻るボタンが押されたら
-            if (backButton)
-
-                isLogIn = true;
-        }
-
-        // currentPlayerを毎フレーム監視し、ログインが完了したら
-        if (FindObjectOfType<UserAuth>().currentPlayer() != null)
-        {
-            SetMyNickName(this.id); //ncmbのidをphotonのプレーヤーネームにする
             SceneManager.LoadScene("Lobby");
         }
     }
+    void Start()
+    {
+        userAuth.logOut(); //ここは後で消す予定(ログイン関係のデバッグが終わったら)
+        isLogIn = true;
+        guiTextSignUp.SetActive(false);
+        guiTextLogIn.SetActive(true);
+    }
 
+    void Update()
+    {
+        if (isLogIn)// ログイン画面
+        {
+            drawLogInMenu();
+        }
+        else// 新規登録画面
+        {
+            drawSignUpMenu();
+        }
+        // currentPlayerを毎フレーム監視し、ログインが完了したら
+        if (NCMBUser.CurrentUser != null)
+        {
+            SceneManager.LoadScene("Lobby");
+        }
+    }
     private void drawLogInMenu()
     {
         // テキスト切り替え
         guiTextSignUp.SetActive(false);
         guiTextLogIn.SetActive(true);
-
-        // テキストボックスの設置と入力値の取得
-        GUI.skin.textField.fontSize = 36;
-        int txtW = 220, txtH = 50;
-        id = GUI.TextField(new Rect(Screen.width * 1 / 2, Screen.height * 1 / 3 - txtH * 1 / 2, txtW, txtH), id);
-        pw = GUI.PasswordField(new Rect(Screen.width * 1 / 2, Screen.height * 1 / 2 - txtH * 1 / 2, txtW, txtH), pw, '*');
-
-        // ボタンの設置
-        int btnW = 220, btnH = 50;
-        GUI.skin.button.fontSize = 36;
-        logInButton = GUI.Button(new Rect(Screen.width * 1 / 4 - btnW * 1 / 2, Screen.height * 3 / 4 - btnH * 1 / 2, btnW, btnH), "Log In");
-        signUpMenuButton = GUI.Button(new Rect(Screen.width * 3 / 4 - btnW * 1 / 2, Screen.height * 3 / 4 - btnH * 1 / 2, btnW, btnH), "Sign Up");
-
     }
-
     private void drawSignUpMenu()
     {
         // テキスト切り替え
         guiTextLogIn.SetActive(false);
         guiTextSignUp.SetActive(true);
-
-        // テキストボックスの設置と入力値の取得
-        int txtW = 220, txtH = 50;
-        GUI.skin.textField.fontSize = 36;
-        id = GUI.TextField(new Rect(Screen.width * 1 / 2, Screen.height * 1 / 4 - txtH * 1 / 2, txtW, txtH), id);
-        pw = GUI.PasswordField(new Rect(Screen.width * 1 / 2, Screen.height * 2 / 5 - txtH * 1 / 2, txtW, txtH), pw, '*');
-        mail = GUI.TextField(new Rect(Screen.width * 1 / 2, Screen.height * 11 / 20 - txtH * 1 / 2, txtW, txtH), mail);
-
-        // ボタンの設置
-        int btnW = 220, btnH = 50;
-        GUI.skin.button.fontSize = 36;
-        signUpButton = GUI.Button(new Rect(Screen.width * 1 / 4 - btnW * 1 / 2, Screen.height * 3 / 4 - btnH * 1 / 2, btnW, btnH), "Sign Up");
-        backButton = GUI.Button(new Rect(Screen.width * 3 / 4 - btnW * 1 / 2, Screen.height * 3 / 4 - btnH * 1 / 2, btnW, btnH), "Back");
     }
-
-    // ニックネームを付ける
-    private void SetMyNickName(string nickName)
+    public void ClickSignUpMenu()// 新規登録画面に移動するボタンが押されたら
     {
-        if (PhotonNetwork.IsConnected)
-        {
-            PhotonNetwork.LocalPlayer.NickName = nickName;
-        }
+        isLogIn = false;
+    }
+    public void ClickSignUp()// 新規登録ボタンが押されたら
+    {
+        string userId = m_userIdForSignUp.text;
+        string password = m_passwordForSignUp.text;
+        string mail = m_mailInputField.text;
+        SignUp(userId, mail, password);
+    }
+    void SignUp(string id, string mail, string pw)
+    {
+        Debug.Log("id: " + id + "pw: " + pw + "mail: " + mail);
+        userAuth.signUp(id, mail, pw);
+    }
+    public void ClickLogin() // ログインボタンが押されたら
+    {
+        string userId = m_userIdForLogin.text;
+        string password = m_passwordForLogin.text;
+        Login(userId, password);
+    }
+    void Login(string id, string pw)
+    {
+        userAuth.logIn(id, pw);
+    }
+    public void ClickBack()// 戻るボタンが押されたら
+    {
+        isLogIn = true;
     }
 }

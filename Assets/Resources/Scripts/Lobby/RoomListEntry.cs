@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(RectTransform))]
 [RequireComponent(typeof(Button))]
-public class RoomListEntry : MonoBehaviour
+public class RoomListEntry : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private Text nameLabel;

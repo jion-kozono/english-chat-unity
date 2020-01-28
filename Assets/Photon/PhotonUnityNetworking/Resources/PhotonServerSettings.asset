@@ -42,5 +42,13 @@ MonoBehaviour:
   - RPC_DestroyTurnManager
   - RPC_StartTurn
   - RPC_InfoText
+  - RPC_LeaveRoom
+  - RPC_RecieveOtherData
+  - RPC_ReGame
+  - IsAll
+  - NotIsAll
+  - RPC_GameOver
+  - RPC_IsAll
+  - RPC_NotIsAll
   DisableAutoOpenWizard: 1
   ShowSettings: 1

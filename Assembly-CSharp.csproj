@@ -176,11 +176,14 @@
      <Compile Include="Assets\Resources\Scripts\Chat\ScrollerData.cs" />
      <Compile Include="Assets\Resources\Scripts\Chat\TurnManager.cs" />
      <Compile Include="Assets\Resources\Scripts\Chat\UserInfo.cs" />
+     <Compile Include="Assets\Resources\Scripts\Lobby\LobbyManager.cs" />
+     <Compile Include="Assets\Resources\Scripts\Lobby\NetworkManager.cs" />
      <Compile Include="Assets\Resources\Scripts\Lobby\RoomListEntry.cs" />
      <Compile Include="Assets\Resources\Scripts\Lobby\RoomListView.cs" />
      <Compile Include="Assets\Resources\Scripts\Login\LogInManager.cs" />
-     <Compile Include="Assets\Resources\Scripts\Login\NetworkManager.cs" />
      <Compile Include="Assets\Resources\Scripts\Login\UserAuth.cs" />
+     <Compile Include="Assets\UserManagement\PanelController.cs" />
+     <Compile Include="Assets\UserManagement\UserManager.cs" />
      <None Include="Assets\Photon\PhotonUnityNetworking\link.xml" />
      <None Include="Assets\Photon\PhotonLibs\Photon3Unity3D.xml" />
      <None Include="Assets\EnhancedScroller v2\upgrading from 1.x to 2.x.txt" />
