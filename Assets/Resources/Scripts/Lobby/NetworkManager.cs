@@ -1,4 +1,5 @@
 ﻿using ExitGames.Client.Photon;
+using NCMB;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
@@ -63,6 +64,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Connect("1.0");// Photonに接続
     }
+    private void Update()
+    {
+        if (NCMBUser.CurrentUser == null)
+        {
+            return;
+        }
+        else
+        {
+            // ニックネームを付ける
+            SetMyNickName(NCMBUser.CurrentUser.UserName); //ログインしているプレーヤーをphotonのプレーヤーネームにする.id);
+            DisplayName = PhotonNetwork.NickName + "の部屋";
+        }
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////
     // Connect //////////////////////////////////////////////////////////////////////////
@@ -85,7 +99,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected)
         {
             PhotonNetwork.LocalPlayer.NickName = nickName;
-            DisplayName = PhotonNetwork.NickName + "の部屋";
         }
     }
 
@@ -112,6 +125,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("Chat");
     }
     //LobbySceneへのシーン切替
+    public bool ToLobby = true; //ロビーに行くか
     public void ChangeLobbyScene()
     {
         SceneManager.LoadScene("Lobby");
@@ -311,10 +325,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnected()
     {
         Debug.Log("OnConnected");
-        GameObject go = GameObject.Find("UserAuth");
-        UserAuth ua = go.GetComponent<UserAuth>();
-        // ニックネームを付ける
-        SetMyNickName(ua.currentPlayer()); //ログインしているプレーヤーをphotonのプレーヤーネームにする.id);
     }
 
     // Photonから切断された時
@@ -396,15 +406,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         Debug.Log("OnLeftRoom");
-        GameObject go = GameObject.Find("TurnManager");
-        TurnManager tm = go.GetComponent<TurnManager>();
-        if (tm.isReGame)
+        if (ToLobby)
         {
-            tm.isReGame = false;
+            ChangeLobbyScene();
         }
         else
         {
-            ChangeLobbyScene();
+            ToLobby = false;
+            return;
         }
         // onJoinedRoom = false;
     }

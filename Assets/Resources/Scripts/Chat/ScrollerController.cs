@@ -2,6 +2,7 @@
 using EnhancedUI.EnhancedScroller;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(PhotonView))]
@@ -19,12 +20,14 @@ public class ScrollerController : MonoBehaviour, IEnhancedScrollerDelegate
     private int AdjustHeight = 30; //高さを調整
     [SerializeField] private InputField field;
     [SerializeField] private RectTransform fieldRect;
-    private void Start()
+    void awake()
     {
         photonView = GetComponent<PhotonView>();
+    }
+    private void Start()
+    {
         // 各データリストを作成
         _data = new List<ScrollerData>();
-
         m_scroller.Delegate = this;　// Scrollerにデリゲート登録
         m_scroller.ReloadData();　// ReloadDataをするとビューが更新される
     }

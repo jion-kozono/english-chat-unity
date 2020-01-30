@@ -28,7 +28,7 @@ public class LogInManager : MonoBehaviour
     }
     void Start()
     {
-        userAuth.logOut(); //ここは後で消す予定(ログイン関係のデバッグが終わったら)
+        // userAuth.logOut(); //ここは後で消す予定(ログイン関係のデバッグが終わったら)
         isLogIn = true;
         guiTextSignUp.SetActive(false);
         guiTextLogIn.SetActive(true);

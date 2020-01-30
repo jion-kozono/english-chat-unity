@@ -50,5 +50,8 @@ MonoBehaviour:
   - RPC_GameOver
   - RPC_IsAll
   - RPC_NotIsAll
+  - GetIsMyrData
+  - RPC_OtherGetMyData
+  - RPC_OverTurn
   DisableAutoOpenWizard: 1
   ShowSettings: 1

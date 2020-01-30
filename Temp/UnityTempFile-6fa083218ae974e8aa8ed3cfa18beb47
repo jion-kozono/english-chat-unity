@@ -1,0 +1,304 @@
+-debug
+-target:library
+-nowarn:0169
+-langversion:4
+-out:'Temp/Assembly-CSharp.dll'
+-unsafe
+-r:'Library/ScriptAssemblies/PhotonUnityNetworking.Demos.dll'
+-r:'Library/ScriptAssemblies/PhotonUnityNetworking.Utilities.dll'
+-r:'Library/ScriptAssemblies/PhotonWebSocket.dll'
+-r:'Library/ScriptAssemblies/PhotonRealtime.dll'
+-r:'Library/ScriptAssemblies/PhotonUnityNetworking.dll'
+-r:'Library/ScriptAssemblies/PhotonChat.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.CoreModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.AccessibilityModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.ParticleSystemModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.PhysicsModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.VehiclesModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.ClothModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.AIModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.AnimationModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.TextRenderingModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.UIModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.TerrainPhysicsModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.IMGUIModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.UNETModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.DirectorModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.UnityAnalyticsModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.PerformanceReportingModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.UnityConnectModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.WebModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.ARModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.VRModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.UIElementsModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.StyleSheetsModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.AssetBundleModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.AudioModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.CrashReportingModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.GameCenterModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.GridModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.ImageConversionModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.InputModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.JSONSerializeModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.ParticlesLegacyModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.Physics2DModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.ScreenCaptureModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.SharedInternalsModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.SpriteMaskModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.SpriteShapeModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.TerrainModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.TilemapModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.UnityWebRequestModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.UnityWebRequestAudioModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.UnityWebRequestTextureModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.UnityWebRequestWWWModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.VideoModule.dll'
+-r:'/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Managed/UnityEngine.WindModule.dll'
+-r:'/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Standalone/UnityEngine.UI.dll'
+-r:'/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Timeline/Runtime/UnityEngine.Timeline.dll'
+-r:'/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Standalone/UnityEngine.Networking.dll'
+-r:'/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/Runtime/UnityEngine.SpatialTracking.dll'
+-r:'Assets/Photon/PhotonLibs/Photon3Unity3D.dll'
+-r:'/Users/xiaoyuanzhiwang/Library/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll'
+-define:UNITY_5_3_OR_NEWER
+-define:UNITY_5_4_OR_NEWER
+-define:UNITY_5_5_OR_NEWER
+-define:UNITY_5_6_OR_NEWER
+-define:UNITY_2017_1_OR_NEWER
+-define:UNITY_2017_2_OR_NEWER
+-define:UNITY_2017_3_OR_NEWER
+-define:UNITY_2017_4_OR_NEWER
+-define:UNITY_2017_4_32
+-define:UNITY_2017_4
+-define:UNITY_2017
+-define:ENABLE_AUDIO
+-define:ENABLE_CACHING
+-define:ENABLE_CLOTH
+-define:ENABLE_GENERICS
+-define:ENABLE_PVR_GI
+-define:ENABLE_MICROPHONE
+-define:ENABLE_MULTIPLE_DISPLAYS
+-define:ENABLE_PHYSICS
+-define:ENABLE_SPRITERENDERER_FLIPPING
+-define:ENABLE_SPRITES
+-define:ENABLE_GRID
+-define:ENABLE_TILEMAP
+-define:ENABLE_TERRAIN
+-define:ENABLE_RAKNET
+-define:ENABLE_DIRECTOR
+-define:ENABLE_UNET
+-define:ENABLE_LZMA
+-define:ENABLE_UNITYEVENTS
+-define:ENABLE_WEBCAM
+-define:ENABLE_WWW
+-define:ENABLE_CLOUD_SERVICES_COLLAB
+-define:ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS
+-define:ENABLE_CLOUD_SERVICES_ADS
+-define:ENABLE_CLOUD_HUB
+-define:ENABLE_CLOUD_PROJECT_ID
+-define:ENABLE_CLOUD_SERVICES_USE_WEBREQUEST
+-define:ENABLE_CLOUD_SERVICES_UNET
+-define:ENABLE_CLOUD_SERVICES_BUILD
+-define:ENABLE_CLOUD_LICENSE
+-define:ENABLE_EDITOR_HUB
+-define:ENABLE_EDITOR_HUB_LICENSE
+-define:ENABLE_WEBSOCKET_CLIENT
+-define:ENABLE_DIRECTOR_AUDIO
+-define:ENABLE_DIRECTOR_TEXTURE
+-define:ENABLE_TIMELINE
+-define:ENABLE_EDITOR_METRICS
+-define:ENABLE_EDITOR_METRICS_CACHING
+-define:ENABLE_NATIVE_ARRAY
+-define:ENABLE_SPRITE_MASKING
+-define:INCLUDE_DYNAMIC_GI
+-define:INCLUDE_GI
+-define:ENABLE_MONO_BDWGC
+-define:PLATFORM_SUPPORTS_MONO
+-define:INCLUDE_PUBNUB
+-define:ENABLE_PLAYMODE_TESTS_RUNNER
+-define:ENABLE_VIDEO
+-define:ENABLE_RMGUI
+-define:ENABLE_PACKMAN
+-define:ENABLE_CUSTOM_RENDER_TEXTURE
+-define:ENABLE_STYLE_SHEETS
+-define:ENABLE_LOCALIZATION
+-define:PLATFORM_ANDROID
+-define:UNITY_ANDROID
+-define:UNITY_ANDROID_API
+-define:ENABLE_SUBSTANCE
+-define:ENABLE_EGL
+-define:ENABLE_NETWORK
+-define:ENABLE_RUNTIME_GI
+-define:ENABLE_CRUNCH_TEXTURE_COMPRESSION
+-define:ENABLE_UNITYWEBREQUEST
+-define:ENABLE_CLOUD_SERVICES
+-define:ENABLE_CLOUD_SERVICES_ANALYTICS
+-define:ENABLE_EVENT_QUEUE
+-define:ENABLE_CLOUD_SERVICES_PURCHASING
+-define:ENABLE_CLOUD_SERVICES_CRASH_REPORTING
+-define:ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING
+-define:PLATFORM_SUPPORTS_ADS_ID
+-define:UNITY_CAN_SHOW_SPLASH_SCREEN
+-define:ENABLE_VR
+-define:ENABLE_AR
+-define:ENABLE_SPATIALTRACKING
+-define:ENABLE_UNITYADS_RUNTIME
+-define:UNITY_UNITYADS_API
+-define:ENABLE_MONO
+-define:NET_2_0_SUBSET
+-define:DEVELOPMENT_BUILD
+-define:ENABLE_PROFILER
+-define:DEBUG
+-define:TRACE
+-define:UNITY_ASSERTIONS
+-define:PHOTON_UNITY_NETWORKING
+-define:PUN_2_0_OR_NEWER
+-define:PUN_2_OR_NEWER
+-define:UNITY_HAS_GOOGLEVR
+-define:UNITY_HAS_TANGO
+'Assets/EnhancedScroller v2/Demos/01 Simple Demo/CellView.cs'
+'Assets/EnhancedScroller v2/Demos/01 Simple Demo/Data.cs'
+'Assets/EnhancedScroller v2/Demos/01 Simple Demo/SimpleDemo.cs'
+'Assets/EnhancedScroller v2/Demos/02 Multiple Cell Types/CellView.cs'
+'Assets/EnhancedScroller v2/Demos/02 Multiple Cell Types/CellViewFooter.cs'
+'Assets/EnhancedScroller v2/Demos/02 Multiple Cell Types/CellViewHeader.cs'
+'Assets/EnhancedScroller v2/Demos/02 Multiple Cell Types/CellViewRow.cs'
+'Assets/EnhancedScroller v2/Demos/02 Multiple Cell Types/Data.cs'
+'Assets/EnhancedScroller v2/Demos/02 Multiple Cell Types/MultipleCellTypesDemo.cs'
+'Assets/EnhancedScroller v2/Demos/03 Selection Demo/InventoryCellView.cs'
+'Assets/EnhancedScroller v2/Demos/03 Selection Demo/InventoryData.cs'
+'Assets/EnhancedScroller v2/Demos/03 Selection Demo/SelectionDemo.cs'
+'Assets/EnhancedScroller v2/Demos/04 Jump To Demo/CellView.cs'
+'Assets/EnhancedScroller v2/Demos/04 Jump To Demo/Controller.cs'
+'Assets/EnhancedScroller v2/Demos/04 Jump To Demo/Data.cs'
+'Assets/EnhancedScroller v2/Demos/05 Remote Resources/CellView.cs'
+'Assets/EnhancedScroller v2/Demos/05 Remote Resources/Controller.cs'
+'Assets/EnhancedScroller v2/Demos/05 Remote Resources/Data.cs'
+'Assets/EnhancedScroller v2/Demos/05 Remote Resources/ImageList.cs'
+'Assets/EnhancedScroller v2/Demos/06 Snapping/PlayWin.cs'
+'Assets/EnhancedScroller v2/Demos/06 Snapping/SlotCellView.cs'
+'Assets/EnhancedScroller v2/Demos/06 Snapping/SlotController.cs'
+'Assets/EnhancedScroller v2/Demos/06 Snapping/SlotData.cs'
+'Assets/EnhancedScroller v2/Demos/06 Snapping/SnappingDemo.cs'
+'Assets/EnhancedScroller v2/Demos/07 Refreshing/CellView.cs'
+'Assets/EnhancedScroller v2/Demos/07 Refreshing/Controller.cs'
+'Assets/EnhancedScroller v2/Demos/07 Refreshing/Data.cs'
+'Assets/EnhancedScroller v2/Demos/08 View Driven Cell Sizes/CellView.cs'
+'Assets/EnhancedScroller v2/Demos/08 View Driven Cell Sizes/Controller.cs'
+'Assets/EnhancedScroller v2/Demos/08 View Driven Cell Sizes/Data.cs'
+'Assets/EnhancedScroller v2/Demos/09 Cell Events/CellView.cs'
+'Assets/EnhancedScroller v2/Demos/09 Cell Events/Controller.cs'
+'Assets/EnhancedScroller v2/Demos/09 Cell Events/Data.cs'
+'Assets/EnhancedScroller v2/Demos/10 Grid Simulation/CellView.cs'
+'Assets/EnhancedScroller v2/Demos/10 Grid Simulation/Controller.cs'
+'Assets/EnhancedScroller v2/Demos/10 Grid Simulation/Data.cs'
+'Assets/EnhancedScroller v2/Demos/10 Grid Simulation/RowCellView.cs'
+'Assets/EnhancedScroller v2/Demos/10b Grid Selection/CellView.cs'
+'Assets/EnhancedScroller v2/Demos/10b Grid Selection/Controller.cs'
+'Assets/EnhancedScroller v2/Demos/10b Grid Selection/Data.cs'
+'Assets/EnhancedScroller v2/Demos/10b Grid Selection/RowCellView.cs'
+'Assets/EnhancedScroller v2/Demos/11 Pull Down Refresh/CellView.cs'
+'Assets/EnhancedScroller v2/Demos/11 Pull Down Refresh/Controller.cs'
+'Assets/EnhancedScroller v2/Demos/11 Pull Down Refresh/Data.cs'
+'Assets/EnhancedScroller v2/Demos/12 Nested Scrollers/Controller.cs'
+'Assets/EnhancedScroller v2/Demos/12 Nested Scrollers/DetailCellView.cs'
+'Assets/EnhancedScroller v2/Demos/12 Nested Scrollers/DetailData.cs'
+'Assets/EnhancedScroller v2/Demos/12 Nested Scrollers/MasterCellView.cs'
+'Assets/EnhancedScroller v2/Demos/12 Nested Scrollers/MasterData.cs'
+'Assets/EnhancedScroller v2/Demos/12 Nested Scrollers/ScrollRectEx.cs'
+'Assets/EnhancedScroller v2/Demos/12b Nested Linked Scrollers (Alternate Grid)/Controller.cs'
+'Assets/EnhancedScroller v2/Demos/12b Nested Linked Scrollers (Alternate Grid)/DetailCellView.cs'
+'Assets/EnhancedScroller v2/Demos/12b Nested Linked Scrollers (Alternate Grid)/DetailData.cs'
+'Assets/EnhancedScroller v2/Demos/12b Nested Linked Scrollers (Alternate Grid)/MasterCellView.cs'
+'Assets/EnhancedScroller v2/Demos/12b Nested Linked Scrollers (Alternate Grid)/MasterData.cs'
+'Assets/EnhancedScroller v2/Demos/12b Nested Linked Scrollers (Alternate Grid)/ScrollRectEx.cs'
+'Assets/EnhancedScroller v2/Demos/13 Pagination/CellView.cs'
+'Assets/EnhancedScroller v2/Demos/13 Pagination/Controller.cs'
+'Assets/EnhancedScroller v2/Demos/13 Pagination/Data.cs'
+'Assets/EnhancedScroller v2/Demos/13 Pagination/LoadingCellView.cs'
+'Assets/EnhancedScroller v2/Demos/Main Menu/MainMenu.cs'
+'Assets/EnhancedScroller v2/Demos/Main Menu/ReturnToMainMenu.cs'
+'Assets/EnhancedScroller v2/Plugins/EnhancedScroller.cs'
+'Assets/EnhancedScroller v2/Plugins/EnhancedScrollerCellView.cs'
+'Assets/EnhancedScroller v2/Plugins/IEnhancedScrollerDelegate.cs'
+'Assets/EnhancedScroller v2/Plugins/SmallList.cs'
+'Assets/NCMB/NCMBManager.cs'
+'Assets/NCMB/NCMBSettings.cs'
+'Assets/NCMB/Script/CommonConstant.cs'
+'Assets/NCMB/Script/ExtensionsClass.cs'
+'Assets/NCMB/Script/MimeTypeMap.cs'
+'Assets/NCMB/Script/MiniJSON.cs'
+'Assets/NCMB/Script/NamespaceDoc.cs'
+'Assets/NCMB/Script/NCMBACL.cs'
+'Assets/NCMB/Script/NCMBAddOperation.cs'
+'Assets/NCMB/Script/NCMBAddUniqueOperation.cs'
+'Assets/NCMB/Script/NCMBAnalytics.cs'
+'Assets/NCMB/Script/NCMBCallback.cs'
+'Assets/NCMB/Script/NCMBClassNameAttribute.cs'
+'Assets/NCMB/Script/NCMBConnection.cs'
+'Assets/NCMB/Script/NCMBDebug.cs'
+'Assets/NCMB/Script/NCMBDeleteOperation.cs'
+'Assets/NCMB/Script/NCMBException.cs'
+'Assets/NCMB/Script/NCMBFacebookParameters.cs'
+'Assets/NCMB/Script/NCMBFieldOperation.cs'
+'Assets/NCMB/Script/NCMBFile.cs'
+'Assets/NCMB/Script/NCMBGeoPoint.cs'
+'Assets/NCMB/Script/NCMBIncrementOperation.cs'
+'Assets/NCMB/Script/NCMBInstallation.cs'
+'Assets/NCMB/Script/NCMBObject.cs'
+'Assets/NCMB/Script/NCMBPush.cs'
+'Assets/NCMB/Script/NCMBQuery.cs'
+'Assets/NCMB/Script/NCMBRelation.cs'
+'Assets/NCMB/Script/NCMBRelationOperation.cs'
+'Assets/NCMB/Script/NCMBRemoveOperation.cs'
+'Assets/NCMB/Script/NCMBRole.cs'
+'Assets/NCMB/Script/NCMBScript.cs'
+'Assets/NCMB/Script/NCMBSetOperation.cs'
+'Assets/NCMB/Script/NCMBTwitterParameters.cs'
+'Assets/NCMB/Script/NCMBUser.cs'
+'Assets/NCMB/Script/NCMBUtility.cs'
+'Assets/NCMB/Script/SimpleJSON.cs'
+'Assets/NCMB/Script/Task/NCMBObjectTaskExtension.cs'
+'Assets/NCMB/Script/Task/NCMBPushTaskExtension.cs'
+'Assets/NCMB/Script/Task/NcmbQueryTaskExtension.cs'
+'Assets/NCMB/Script/Task/NCMBScriptTaskExtension.cs'
+'Assets/NCMB/Script/Task/NCMBUserTaskExtension.cs'
+'Assets/NCMB/Script/Task/NCMBUserTaskMethods.cs'
+'Assets/Photon/PhotonChat/Demos/Common/EventSystemSpawner.cs'
+'Assets/Photon/PhotonChat/Demos/Common/OnStartDelete.cs'
+'Assets/Photon/PhotonChat/Demos/Common/TextButtonTransition.cs'
+'Assets/Photon/PhotonChat/Demos/Common/TextToggleIsOnTransition.cs'
+'Assets/Photon/PhotonChat/Demos/DemoChat/ChannelSelector.cs'
+'Assets/Photon/PhotonChat/Demos/DemoChat/ChatAppIdCheckerUI.cs'
+'Assets/Photon/PhotonChat/Demos/DemoChat/ChatGui.cs'
+'Assets/Photon/PhotonChat/Demos/DemoChat/FriendItem.cs'
+'Assets/Photon/PhotonChat/Demos/DemoChat/IgnoreUiRaycastWhenInactive.cs'
+'Assets/Photon/PhotonChat/Demos/DemoChat/NamePickGui.cs'
+'Assets/Photon/PhotonRealtime/Demos/DemoLoadBalancing/ConnectAndJoinRandomLb.cs'
+'Assets/Resources/Scripts/Chat/CellView.cs'
+'Assets/Resources/Scripts/Chat/ChatButtonManger.cs'
+'Assets/Resources/Scripts/Chat/GameController.cs'
+'Assets/Resources/Scripts/Chat/InputFieldController.cs'
+'Assets/Resources/Scripts/Chat/ScrollerController.cs'
+'Assets/Resources/Scripts/Chat/ScrollerData.cs'
+'Assets/Resources/Scripts/Chat/TradeUserInfo.cs'
+'Assets/Resources/Scripts/Chat/TurnManager.cs'
+'Assets/Resources/Scripts/Lobby/LobbyManager.cs'
+'Assets/Resources/Scripts/Lobby/MenuModalController.cs'
+'Assets/Resources/Scripts/Lobby/NetworkManager.cs'
+'Assets/Resources/Scripts/Lobby/RoomListEntry.cs'
+'Assets/Resources/Scripts/Lobby/RoomListView.cs'
+'Assets/Resources/Scripts/Lobby/UserInfo.cs'
+'Assets/Resources/Scripts/Lobby/UserInfoData.cs'
+'Assets/Resources/Scripts/Lobby/UserInfoModalController.cs'
+'Assets/Resources/Scripts/Login/LogInManager.cs'
+'Assets/Resources/Scripts/Login/UserAuth.cs'
+'Assets/UserManagement/PanelController.cs'
+'Assets/UserManagement/UserManager.cs'
+-r:'/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Runtime.Serialization.dll'
+-r:'/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Xml.Linq.dll'
+-r:'/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/UnityScript.dll'
+-r:'/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/UnityScript.Lang.dll'
+-r:'/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/Boo.Lang.dll'
+-sdk:unity

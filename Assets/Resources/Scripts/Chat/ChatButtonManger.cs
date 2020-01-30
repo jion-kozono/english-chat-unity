@@ -1,41 +1,47 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ChatButtonManger : MonoBehaviour
 {
-    public GameObject ChatMenuModal = null;
-    public UserInfo userInfo;
+    [SerializeField] private GameObject ChatMenuModal = null;
+    // UserInfoModalController userInfoModalController;
+    // public bool IsChatMenuModalSetActive = false;
+
     // Use this for initialization
+    void awake()
+    {
+        // GameObject go = GameObject.Find("UserInfoModalController");
+        // userInfoModalController = go.GetComponent<UserInfoModalController>();
+    }
     void Start()
     {
         if (ChatMenuModal.activeSelf != false)
         {
             ChatMenuModal.SetActive(false);
+            // IsChatMenuModalSetActive = false;
         }
     }
-    public void OpenChatMenuModal()
+    public void OpenChatMenuModal()//ChatMenuModalを開く
     {
-        // Canvas を有効にする
         if (ChatMenuModal.activeSelf == false)
         {
-            if (userInfo.UserInfoModal.activeSelf != false)
-            {
-                userInfo.UserInfoModal.SetActive(false);
-            }
+            // if (userInfoModalController.IsUserInfoModalSetActive)
+            // {
+            //     userInfoModalController.CloseUserInfoModal();
+            // }
             ChatMenuModal.SetActive(true);
+            // IsChatMenuModalSetActive = true;
         }
         else
         {
             return;
         }
     }
-    public void CloseChatMenuModal()
+    public void CloseChatMenuModal()//ChatMenuModalを閉じる
     {
-        // Canvas を有効にする
         if (ChatMenuModal.activeSelf != false)
         {
             ChatMenuModal.SetActive(false);
+            // IsChatMenuModalSetActive = false;
         }
     }
 }
