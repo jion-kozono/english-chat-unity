@@ -36,10 +36,7 @@ public class UserAuth : MonoBehaviour
             {
                 currentPlayerName = id;
                 logIn(id, pw);
-                if (!initialSignUp)
-                {
-                    initialSignUp = true;
-                }
+                initialSignUp = true;
             }
         });
     }

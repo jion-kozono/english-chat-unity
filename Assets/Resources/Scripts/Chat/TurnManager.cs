@@ -15,7 +15,6 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
     [SerializeField] private GameController gameController;
     [SerializeField] private Text TurnText = null;//ターン数の表示テキスト
     [SerializeField] private Text TimeText = null;//残り時間の表示テキスト
-    [SerializeField] private Text YourTurnText; //"Your Turn, Waiting..."のテキスト
     private int number = 0;
     private int turnLimit = 2; //ターンの回数
     private bool isStartTurn = false; //turn開始しているか
@@ -63,7 +62,7 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
         if (this.turnManager.Turn == turnLimit)　//10ターンでゲーム終了
         {
             isStartTurn = false; //turn終了
-            pView.RPC("RPC_OverTurn", RpcTarget.All);
+            pView.RPC("RPC_OverTurn", RpcTarget.All);//全てのターン終了時
         }
         else
         {
@@ -78,12 +77,12 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
     }
     public void StartTurn()//ターン開始メソッド（シーン開始時にRPCから呼ばれる呼ばれるようにしてあります。）
     {
+        isStartTurn = true; //turn開始
         if (PhotonNetwork.IsMasterClient)
         {
             if (number == this.turnManager.Turn)//BeginTurnが1ターンに1回しか回らないことのチェックをする。
             {
                 this.turnManager.BeginTurn();//turnmanagerに新しいターンを始めさせる
-                isStartTurn = true; //turn開始
                 pView.RPC("RPC_AutomaticSend", RpcTarget.All);
                 number++;//BeginTurnが2回目以降1ターンに回る場合にはこの変数がターンと一致しないようにする
             }
@@ -107,16 +106,14 @@ public class TurnManager : MonoBehaviourPunCallbacks, IOnEventCallback, IPunTurn
             canChat = false; //チャットを不可能にする
             object index = 0;
             this.turnManager.SendMove(index, true); //無条件でターン終了
-            this.YourTurnText.text = "Waitng..."; //待ちの表示テキスト
         }
         else
         {
-            canChat = true; //チャットを可能にする
-            this.YourTurnText.text = "Your Turn";
+            canChat = true; //チャットを可能にする}
         }
     }
     [PunRPC]
-    public void RPC_OverTurn()//全てのターン終了時
+    public void RPC_OverTurn()
     {
         gameController.GameOver();//GameOverの流れを開始
     }

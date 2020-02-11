@@ -1,2 +1,0 @@
-com.Company.EnglishChat.resources
-integer google_play_services_version

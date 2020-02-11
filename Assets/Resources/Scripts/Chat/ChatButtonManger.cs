@@ -1,17 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ChatButtonManger : MonoBehaviour
 {
+    [SerializeField] private NetworkManager nManager;
     [SerializeField] private GameObject ChatMenuModal = null;
-    // UserInfoModalController userInfoModalController;
-    // public bool IsChatMenuModalSetActive = false;
-
-    // Use this for initialization
-    void awake()
-    {
-        // GameObject go = GameObject.Find("UserInfoModalController");
-        // userInfoModalController = go.GetComponent<UserInfoModalController>();
-    }
     void Start()
     {
         if (ChatMenuModal.activeSelf != false)
@@ -24,12 +17,7 @@ public class ChatButtonManger : MonoBehaviour
     {
         if (ChatMenuModal.activeSelf == false)
         {
-            // if (userInfoModalController.IsUserInfoModalSetActive)
-            // {
-            //     userInfoModalController.CloseUserInfoModal();
-            // }
             ChatMenuModal.SetActive(true);
-            // IsChatMenuModalSetActive = true;
         }
         else
         {
@@ -41,7 +29,18 @@ public class ChatButtonManger : MonoBehaviour
         if (ChatMenuModal.activeSelf != false)
         {
             ChatMenuModal.SetActive(false);
-            // IsChatMenuModalSetActive = false;
         }
+    }
+    public void LogOut()
+    {
+        nManager.LeaveRoom();
+        GameObject go = GameObject.Find("UserAuth");
+        UserAuth ua = go.GetComponent<UserAuth>();
+        GameObject go2 = GameObject.Find("LoadingScene");
+        LoadingScene loadingScene = go2.GetComponent<LoadingScene>();
+        loadingScene.isToLogin = true;
+        ua.logOut();
+        loadingScene.LoadNextScene();
+        SceneManager.UnloadSceneAsync("chat");
     }
 }

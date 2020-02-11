@@ -10,7 +10,8 @@ using UnityEngine.UI;
 public class ScrollerController : MonoBehaviour, IEnhancedScrollerDelegate
 {
     private PhotonView photonView;
-    public TurnManager turnManager;
+    // public TurnManager turnManager;
+    [SerializeField] private GameController gameController;
     public EnhancedScroller m_scroller;
     public CellView m_cellPrefab;
     public TextGenerationSettings settings;
@@ -20,7 +21,7 @@ public class ScrollerController : MonoBehaviour, IEnhancedScrollerDelegate
     private int AdjustHeight = 30; //高さを調整
     [SerializeField] private InputField field;
     [SerializeField] private RectTransform fieldRect;
-    void awake()
+    void Awake()
     {
         photonView = GetComponent<PhotonView>();
     }
@@ -33,11 +34,14 @@ public class ScrollerController : MonoBehaviour, IEnhancedScrollerDelegate
     }
     private void OnSubmit() // テキストを入力し、Sendボタンを押したら呼ばれる
     {
-        if (turnManager.canChat == true && field.text != string.Empty) // チャットが打てる、field.textが空白の時は呼ばない
+        Debug.Log(field.text);
+        // if (turnManager.canChat == true && field.text != string.Empty) // チャットが打てる、field.textが空白の時は呼ばない
+        if (gameController.isStart == true && field.text != string.Empty) // チャットが打てる、field.textが空白の時は呼ばない
         {
+            Debug.Log(photonView);
             photonView.RPC("OnRecieve", RpcTarget.All, field.text);
             field.text = string.Empty; // 入力フィールドは初期化する
-            turnManager.MakeTurn(1);
+            // turnManager.MakeTurn(1);
         }
     }
 

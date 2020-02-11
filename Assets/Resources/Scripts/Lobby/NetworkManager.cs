@@ -60,9 +60,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     // Start is called before the first frame update
+    private LoadingScene loadingScene;
     private void Start()
     {
         Connect("1.0");// Photonに接続
+        GameObject go = GameObject.Find("LoadingScene");
+        loadingScene = go.GetComponent<LoadingScene>();
     }
     private void Update()
     {
@@ -107,7 +110,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     /////////////////////////////////////////////////////////////////////////////////////
 
     // ロビーに入る
-    private void JoinLobby()
+    public void JoinLobby()
     {
         if (PhotonNetwork.IsConnected)
         {
@@ -118,17 +121,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     /////////////////////////////////////////////////////////////////////////////////////
     // Join Room ////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////
-
-    //GameSceneへのシーン切替
-    public void ChangeChatScene()
+    public void UnloadScene(string sceneNameData)//シーンをアンロード
     {
-        SceneManager.LoadScene("Chat");
+        SceneManager.UnloadSceneAsync(sceneNameData);
     }
-    //LobbySceneへのシーン切替
-    public bool ToLobby = true; //ロビーに行くか
-    public void ChangeLobbyScene()
+    public void ToNextScene()//次のシーンに切替
     {
-        SceneManager.LoadScene("Lobby");
+        loadingScene.LoadNextScene();
     }
 
     // 1. 部屋を作成して入室する
@@ -163,6 +162,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.CreateRoom(null, roomOptions);
         }
+    }
+    public void ClickCreateAndJoinRoom()//ボタンをクリックしてCreateAndJoinRoom()を呼ぶ
+    {
+        loadingScene.isToChat = true;
+        CreateAndJoinRoom();
     }
 
     // 2. 部屋に入室する （存在しなければ作成して入室する）
@@ -204,6 +208,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.InLobby)
         {
+            loadingScene.isToChat = true;
             PhotonNetwork.JoinRoom(targetRoomName);
         }
     }
@@ -213,6 +218,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.InLobby)
         {
+            loadingScene.isToChat = true;
             PhotonNetwork.JoinRandomRoom();
         }
     }
@@ -230,6 +236,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             // 退室
             PhotonNetwork.LeaveRoom();
         }
+    }
+    public void ClickLeaveRoom()//ボタンをクリックしてLeaveRoom()を呼ぶ
+    {
+        loadingScene.isToLobby = true;
+        LeaveRoom();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -308,7 +319,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                         if (roomInfo.PlayerCount < roomInfo.MaxPlayers)
                         {
                             JoinRoom(roomInfo.Name);
-                            return;
                         }
                     }
                 }
@@ -337,15 +347,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
-
-        // ロビーに入る
-        JoinLobby();
+        JoinLobby();// ロビーに入る
     }
 
     // ロビーに入った時
     public override void OnJoinedLobby()
     {
         Debug.Log("OnJoinedLobby");
+        // if (loadingScene.isToLobby)
+        // {
+        //     ToNextScene();
+        //     UnloadScene("chat");
+        // }
+        // else
+        // {
+        //     return;
+        // }
     }
 
     // ロビーから出た時
@@ -363,59 +380,62 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // 部屋の作成に失敗した時
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
+        loadingScene.isToChat = false;
         Debug.Log("OnCreateRoomFailed");
     }
 
     // 部屋に入室した時
     public override void OnJoinedRoom()
     {
-        Debug.Log("OnJoinedRoom");
-        // onJoinedRoom = true;
-        // 部屋の情報を表示
-        if (PhotonNetwork.InRoom)
+        if (loadingScene.isToChat)
         {
-            if (SceneManager.GetActiveScene().name != "Chat")
-            {
-                ChangeChatScene();
-            }
-            else
-            {
-                return;
-            }
-            // Debug.Log("RoomName: " + PhotonNetwork.CurrentRoom.Name);
-            // Debug.Log("HostName: " + PhotonNetwork.MasterClient.NickName);
-            // Debug.Log("Stage: " + PhotonNetwork.CurrentRoom.CustomProperties["Stage"] as string);
-            // Debug.Log("Difficulty: " + PhotonNetwork.CurrentRoom.CustomProperties["Difficulty"] as string);
-            // Debug.Log("Slots: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers);
+            ToNextScene();
+            UnloadScene("Lobby");
         }
+        else
+        {
+            return;
+        }
+        Debug.Log("OnJoinedRoom");
+        // 部屋の情報を表示
+        Debug.Log("RoomName: " + PhotonNetwork.CurrentRoom.Name);
+        Debug.Log("HostName: " + PhotonNetwork.MasterClient.NickName);
+        Debug.Log("Stage: " + PhotonNetwork.CurrentRoom.CustomProperties["Stage"] as string);
+        Debug.Log("Difficulty: " + PhotonNetwork.CurrentRoom.CustomProperties["Difficulty"] as string);
+        Debug.Log("Slots: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers);
+        return;
     }
+
 
     // 特定の部屋への入室に失敗した時
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         Debug.Log("OnJoinRoomFailed");
+        loadingScene.isToChat = false;
+        JoinLobby();
     }
 
     // ランダムな部屋への入室に失敗した時
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("OnJoinRandomFailed");
+        loadingScene.isToChat = false;
+        JoinLobby();
     }
 
     // 部屋から退室した時
     public override void OnLeftRoom()
     {
         Debug.Log("OnLeftRoom");
-        if (ToLobby)
+        if (loadingScene.isToLobby)
         {
-            ChangeLobbyScene();
+            ToNextScene();
+            UnloadScene("chat");
         }
         else
         {
-            ToLobby = false;
             return;
         }
-        // onJoinedRoom = false;
     }
 
     // // 他のプレイヤーが入室してきた時

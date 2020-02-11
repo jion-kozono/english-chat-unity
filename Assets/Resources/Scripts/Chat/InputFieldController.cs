@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 public class InputFieldController : MonoBehaviour

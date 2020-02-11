@@ -7,19 +7,17 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class RoomListEntry : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    private Text nameLabel;
-    [SerializeField]
-    private Text difficultyLabel;
-    [SerializeField]
-    private Text playerCounter;
-
+    [SerializeField] private Text nameLabel;
+    [SerializeField] private Text difficultyLabel;
+    [SerializeField] private Text playerCounter;
     private RectTransform rectTransform;
     private Button button;
+    private NetworkManager networkManager;
     private string roomName;
 
     private void Awake()
     {
+        networkManager = GetComponent<NetworkManager>();
         rectTransform = GetComponent<RectTransform>();
         button = GetComponent<Button>();
     }
@@ -27,7 +25,11 @@ public class RoomListEntry : MonoBehaviourPunCallbacks
     private void Start()
     {
         // リスト要素がクリックされたら、対応したルーム名のルームに参加する
-        button.onClick.AddListener(() => PhotonNetwork.JoinRoom(roomName));
+        // button.onClick.AddListener(() => networkManager.JoinRoom(roomName));
+    }
+    public void JoinRoom()
+    {
+        networkManager.JoinRoom(roomName);
     }
 
     public void Activate(RoomInfo info)
@@ -42,12 +44,10 @@ public class RoomListEntry : MonoBehaviourPunCallbacks
 
         gameObject.SetActive(true);
     }
-
     public void Deactivate()
     {
         gameObject.SetActive(false);
     }
-
     public RoomListEntry SetAsLastSibling()
     {
         rectTransform.SetAsLastSibling();

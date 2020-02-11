@@ -17,7 +17,7 @@ MonoBehaviour:
     AppIdVoice: 
     AppVersion: 1.0
     UseNameServer: 1
-    FixedRegion: jp
+    FixedRegion: 
     Server: 
     Port: 0
     Protocol: 0
@@ -32,26 +32,16 @@ MonoBehaviour:
   - DestroyRpc
   - DestroySpaceship
   - Fire
-  - RespawnSpaceship
-  - RpcChangeMesh
-  - OnSubmit
-  - GetCellView
   - OnRecieve
+  - RespawnSpaceship
   - RPC_AutomaticSend
   - RPC_GameStart
-  - RPC_DestroyTurnManager
-  - RPC_StartTurn
-  - RPC_InfoText
-  - RPC_LeaveRoom
-  - RPC_RecieveOtherData
-  - RPC_ReGame
-  - IsAll
-  - NotIsAll
-  - RPC_GameOver
   - RPC_IsAll
-  - RPC_NotIsAll
-  - GetIsMyrData
+  - RPC_LeaveRoomDefult
   - RPC_OtherGetMyData
   - RPC_OverTurn
+  - RPC_RecieveMyScore
+  - RPC_RecieveOtherData
+  - RPC_SetTheme
   DisableAutoOpenWizard: 1
   ShowSettings: 1

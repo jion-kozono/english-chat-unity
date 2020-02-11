@@ -1,12 +1,7 @@
-﻿using ExitGames.Client.Photon;
-using Photon.Pun;
+﻿using Photon.Pun;
 using Photon.Realtime;
-using Photon.Pun.UtilityScripts;
-using NCMB;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-
 
 [RequireComponent(typeof(PhotonView))]
 [RequireComponent(typeof(PhotonTransformView))]
@@ -14,132 +9,143 @@ public class GameController : MonoBehaviourPunCallbacks
 {
     private PhotonView phoView;
     [SerializeField] private TradeUserInfo tradeUserInfo;
+    [SerializeField] private GameObject StartBottun;
+    [SerializeField] private Text dtawingText;
     [SerializeField] private NetworkManager nManager;
-    [SerializeField] private TurnManager turnManager;
-    private bool isAll = false; //全員いるか
-    private bool isOtherPlayerEntered = false;//他プレーヤーが入ったかどうか
-    private bool isOtherPlayerLeft = false;//他プレーヤーが抜けたかどうか
-    private bool isGameStart = false;//他プレーヤーが抜けたかどうか
-    private bool isGameOver = false;//他プレーヤーが抜けたかどうか
+    // [SerializeField] private TurnManager turnManager;
+    [SerializeField] private SendScore sendScore;
+    [SerializeField] private Theme theme;
+    public bool isStart; //スタートしたか
+    private bool isOver;
+    private bool isOtherPlayerEntered;//他プレーヤーが入ったかどうか
+    private bool isOtherPlayerLeft;//他プレーヤーが抜けたかどうか
 
     // Use this for initialization
     public void Awake()// StartをAwakeにする。
     {
         phoView = GetComponent<PhotonView>();
     }
-    private GUIStyle style;
+    // private GUIStyle style;
+    private LoadingScene loadingScene;
     void Start()
     {
-        style = new GUIStyle();
-        style.fontSize = 30;
-        style.fontStyle = FontStyle.Normal;
+        GameObject go = GameObject.Find("LoadingScene");
+        loadingScene = go.GetComponent<LoadingScene>();
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            phoView.RPC("RPC_IsAll", RpcTarget.AllViaServer);
+            DrawWatingStart();
+        }
     }
-    void OnGUI()
+    private void DrawWatingStart()
     {
-        if (isOtherPlayerEntered)
-        {
-            int txtX = Screen.width * 1 / 11, txtY = 15, txtW = Screen.width * 3 / 5, txtH = 40;
-            GUI.Label(new Rect(txtX, Screen.height * 4 / txtY - txtH * 1 / 2, txtW, txtH), "Other Player Entered!");
-        }
-        if (isOtherPlayerLeft)
-        {
-            int txtX = Screen.width * 1 / 11, txtY = 15, txtW = Screen.width * 3 / 5, txtH = 40;
-            GUI.Label(new Rect(txtX, Screen.height * 4 / txtY - txtH * 1 / 2, txtW, txtH), "Other Player Left!");
-        }
-        if (isGameStart)
-        {
-            style.fontSize = 40;
-            style.alignment = TextAnchor.MiddleCenter;
-            int txtX = Screen.width * 1 / 11, txtY = 15, txtW = Screen.width * 3 / 5, txtH = 50;
-            GUI.Label(new Rect(txtX, Screen.height * 4 / txtY - txtH * 1 / 2, txtW, txtH), "GameStart!");
-        }
-        if (isGameOver)
-        {
-            style.fontSize = 40;
-            style.alignment = TextAnchor.MiddleCenter;
-            int txtX = Screen.width * 1 / 11, txtY = 15, txtW = Screen.width * 3 / 5, txtH = 50;
-            GUI.Label(new Rect(txtX, Screen.height * 4 / txtY - txtH * 1 / 2, txtW, txtH), "GameOver!");
-        }
+        dtawingText.text = "Waitng For Master to Start...";
     }
     public override void OnPlayerEnteredRoom(Player newPlayer) // 他のプレイヤーが入室してきた時
     {
         Debug.Log("OnPlayerEnteredRoom");
+        dtawingText.text = "Other Player Entered!";
         // Debug.Log("Slots: " + PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers);
-        phoView.RPC("RPC_IsAll", RpcTarget.All); //全プレーヤーがいる
         isOtherPlayerEntered = true;//他プレーヤーが入ったことを表示
-        Invoke("DestroyOtherPlayerEntereOrLeft", 2.5f); //DestroyOtherPlayerEntereOrLeftを2.5秒後に呼び出す
+        Invoke("DestroyOtherPlayerEntereOrLeft", 1f); //DestroyOtherPlayerEntereOrLeftを2.5秒後に呼び出す
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)  // 他のプレイヤーが退室した時
     {
         Debug.Log("OnPlayerLeftRoom");
-        phoView.RPC("RPC_NotIsAll", RpcTarget.All); //全プレーヤーがいない
+        dtawingText.text = "Other Player Left!";
         isOtherPlayerLeft = true;//他プレーヤーが抜けたことを表示
-        Invoke("DestroyOtherPlayerEntereOrLeft", 2.5f); //DestroyOtherPlayerEntereOrLeftを2.5秒後に呼び出す
-    }
-    [PunRPC]
-    public void RPC_IsAll()
-    {
-        isAll = true; //全員いる
-        Debug.Log("SendMyData();");
-        tradeUserInfo.SendMyData();
-    }
-    [PunRPC]
-    public void RPC_NotIsAll()
-    {
-        isAll = false; //全員いない
         tradeUserInfo.HideOpponentUserWindow();//相手のボタンを隠す
+        Invoke("DestroyOtherPlayerEntereOrLeft", 1f); //DestroyOtherPlayerEntereOrLeftを0.5秒後に呼び出す
+    }
+    [PunRPC]
+    public void RPC_IsAll()//全員が揃ったら呼ばれる
+    {
+        Invoke("CallSendMyData", 1.2f); //DestroyOtherPlayerEntereOrLeftを0.5秒後に呼び出す
+        if (PhotonNetwork.IsMasterClient)//マステーだけがよぶ
+        {
+            theme.BringTheme();//テーマを持ってくる
+        }
+    }
+    private void CallSendMyData()
+    {
+        tradeUserInfo.SendMyData();//自分のデータを送る
     }
     private void DestroyOtherPlayerEntereOrLeft() //プレーヤーが入った、抜けた時に表示するテキストを壊す
     {
-        if (!isAll)
+        dtawingText.text = null;//他プレーヤーが入った、抜けたことの表示を消す
+        if (isOtherPlayerEntered)//他プレーヤーが入った時
         {
-            isOtherPlayerLeft = false;//他プレーヤーが抜けたことの表示を消す
-            ReGame(); //新しくゲームを作る
+            isOtherPlayerEntered = false;
         }
-        else
+        if (isOtherPlayerLeft)//他プレーヤーが抜けた時
         {
-            isOtherPlayerEntered = false;//他プレーヤーが入ったことの表示を消す
+            isOtherPlayerLeft = false;
+            if (!isOver)//ゲーム終了していなかったら
+            {
+                ReGame(); //新しくゲームを作る
+            }
+            // if (isOver)
+            // {
+            //     GameObject go = GameObject.Find("SendScore");
+            //     SendScore sendScore = go.GetComponent<SendScore>();
+            //     sendScore.
+            // }
         }
     }
-    public void GameStart()//相手に情報が渡ったらマスターがゲーム開始
+    public void SetStartBottun()//マスターにStartBottunを設置
     {
-        phoView.RPC("RPC_GameStart", RpcTarget.All); //全プレーヤーにGameStart!を表示
+        StartBottun.SetActive(true);
+    }
+    public void ClickStartBottun()//startBottunをクリック時
+    {
+        GameStart();
+        StartBottun.SetActive(false);
+    }
+    public void GameStart()//GameStart！
+    {
+        phoView.RPC("RPC_GameStart", RpcTarget.AllViaServer); //全プレーヤーにGameStart!を表示
     }
     [PunRPC]
     public void RPC_GameStart()
     {
-        isGameStart = true;//"GameStart！"を表示
-        Invoke("NullGameStartText", 2.5f); //DestroyGameStartを2.5秒後に呼び出す
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            dtawingText.text = null;//"Waitng For Master to Start..."を消す
+        }
+        dtawingText.text = "GameStart!";//"GameStart！"を表示
+        Invoke("NullGameStartText", 2f); //NullGameStartTextを1.5秒後に呼び出す
     }
     private void NullGameStartText()
     {
-        isGameStart = false;//"GameStart！"をnullにする
-        turnManager.StartTurn();//ターンを開始する
+        dtawingText.text = null;//"GameStart！"をnullにする
+        // turnManager.StartTurn();//ターンを開始する
+        isStart = true;//ゲーム開始フラグ
     }
     public void GameOver()
     {
-        isGameOver = true;//"GameOver！"を表示
-        Invoke("NullGameOver", 2.5f); //DestroyGameOverを2.5秒後に呼び出す
+        isStart = false;//ゲーム終了フラグ
+        isOver = true;
+        dtawingText.text = "GameOver!";//"GameOver！"を表示
+        Invoke("NullGameOver", 1.5f); //NullGameOverを1.5秒後に呼び出す
     }
     private void NullGameOver()
     {
-        isGameOver = false;//"GameOver！"をnullにする
-        Invoke("LeaveRoomInGameOver", 1.5f); //DestroyGameOverを2.5秒後に呼び出す
+        dtawingText.text = null;//"GameOver！"をnullにする
+        sendScore.SetSendScoreModal();//相手のスコアをいれるモーダルを表示
     }
-    private void LeaveRoomInGameOver() //"GameOver！"テキストをnullにする
+    public void LeaveRoomInGameOver()
     {
-        PhotonNetwork.LeaveRoom(); //両プレーヤーを退出させる（ロビーに行く)
-        // SceneManager.LoadScene("Lobby");
+        loadingScene.isToLobby = true;//ロビーに行く
+        nManager.LeaveRoom();//両プレーヤーを退出させる
     }
-    private void ReGame()
+    private void ReGame()//ロビーに入るが、チャットシーンをロードするだけ
     {
-        nManager.ToLobby = false;
-        PhotonNetwork.LeaveRoom(); //ロビーに行かない
-        Invoke("CreateRoom", 2.5f); //CreateRoomを2.5秒後に呼び出す
+        loadingScene.isToChat = true;
+        Invoke("CreateAndJoinRoom", 1.5f); //CreateAndJoinRoomを1.5秒後に呼び出す
+        nManager.LeaveRoom();
     }
-    public void CreateRoom()
+    public void CreateAndJoinRoom()
     {
-        SceneManager.LoadScene("Chat"); //シーンをリロードする
         nManager.CreateAndJoinRoom();
     }
 }
